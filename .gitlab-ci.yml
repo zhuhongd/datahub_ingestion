@@ -1,0 +1,62 @@
+# This is our V2 template GitLab CI/CD template, see the readme here:
+# https://git.geotab.com/data-pipelines/dataops_protected/dataops-runner-templates/-/blob/v2/README.md
+# Please give our DAG standards and best practices document a read!
+# https://docs.google.com/document/d/1j-w94Ty4jXIkJnfD6lOLQRo0SFbSL1Pof-bM9X2oRNE/edit?usp=sharing
+
+variables:
+  DEPLOY_TO_COMPOSER:
+    description: true to trigger AirService
+    value: "false"
+    options:
+      - "true"
+      - "false"
+  RELEASE_TO_GCR:
+    description: true to publish docker image through DevOps process
+    value: "false"
+    options:
+      - "true"
+      - "false"
+  DEPLOY_TO_OTHER:
+    description: true to execute deployment.py
+    value: "false"
+    options:
+      - "true"
+      - "false"
+  REGION:
+    description: GCP region of your deployment. For multiple regions enter them comma separated with no spaces. eu,us,ca,br,as,au are currently supported arguments. au is the suggested canary region based on myg device count
+    value: eu
+  REGULATION:
+    description: Any special regulatory regimes for your deployment
+    value: "commercial"
+    options:
+      - "commercial"
+      - "fedramp"
+  VISIBILITY:
+    description: Sharing mode for this DAG. Internal is default and restricts access to your FA
+    value: "internal"
+    options:
+      - "internal"
+      - "shareable"
+  IMAGE_NAME:
+    description: Only required if publishing docker image
+    value: $CI_PROJECT_NAME
+
+
+include:
+  - project: 'data-pipelines/dataops_protected/dataops-runner-templates'
+    ref: v2
+    file: '.gitlab-ci-template-op-release.yml'
+  - project: 'data-pipelines/dataops_protected/dataops-runner-templates'
+    ref: v2
+    file: '.gitlab-ci-template-gcr-release.yml'
+  - project: 'data-pipelines/dataops_protected/dataops-runner-templates'
+    ref: v2
+    file: '.gitlab-ci-template-other-release.yml'
+
+# List of stages for jobs, and their order of execution
+stages:
+  - release_image
+  - deploy_other
+  - deploy_dag
+  - deploy_dag_fedramp
+  - monitor_release

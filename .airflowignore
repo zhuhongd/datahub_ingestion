@@ -1,0 +1,4 @@
+# Please keep .git as default ignored dir
+.git/
+.*\.pyc
+.*\.pyo
