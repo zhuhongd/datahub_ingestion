@@ -14,3 +14,5 @@ This DAG ingest all data (GBQ, Postgre, Airflow, Superset) into Datahub.
 ### Automated Deployment
 - [Automated Deployment Guide](https://git.geotab.com/data-pipelines/dataops_protected/dataops-runner-templates/-/tree/v1?ref_type=heads#user-guide)
 - [Tutorial for refactoring existing projects for GitLab Runner](https://docs.google.com/presentation/d/1M24-nF3DbGJRHMdXa_PkNaodANGmxryh7Dy0mJ8sBaQ/edit?usp=drive_link)
+
+![alt text](image.png)
